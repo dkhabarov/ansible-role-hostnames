@@ -1,0 +1,30 @@
+---
+---
+- name: install hostname
+  apt:
+    pkg: 'hostname'
+    state: present
+  when: ansible_host_family == 'Debian'
+
+- name: Hostname | Update the hostname (pt. 1) - hostname cmd
+  hostname: 
+    name: "{{hostname}}"
+  tags: hostnames_configure_hostname
+
+- name: Hostname | Update the hostname (pt. 2) - (/etc/hostname)
+  copy:
+    content: "{{ hostname }}"
+    dest: /etc/hostname
+    owner: root
+    group: root
+    mode: 0644
+  tags: hostnames_configure_hostname
+
+- name: configure hosts file
+  template:
+    src: etc/hosts.j2
+    dest: /etc/hosts
+    owner: root
+    group: root
+    mode: 0644
+  tags: hostnames_configure_hosts_file

@@ -1,0 +1,37 @@
+###################################################################################
+# {{ ansible_managed }}
+###################################################################################
+
+# IPv4
+127.0.0.1{{'\t'}}localhost localhost.localdomain
+
+{{ ansible_default_ipv4['address'] }}{{'\t'}}{{ inventory_hostname }} {% if inventory_hostname != inventory_hostname_short %} {{ inventory_hostname_short }} {% endif %}
+
+# IPv4 additional_hosts:
+{%if additional_hosts is defined %}
+{% for item in additional_hosts %}
+{%if item.enabled %}
+{{ item.ip }}{{'\t'}}{{ item.hosts }}
+{%endif%}
+{%endfor%}
+{%endif%}
+
+
+###################################################################################
+
+# IPv6
+::1{{'\t'}}ip6-localhost ip6-loopback
+fe00::0{{'\t'}}ip6-localnet
+ff00::0{{'\t'}}ip6-mcastprefix
+ff02::1{{'\t'}}ip6-allnodes
+ff02::2{{'\t'}}ip6-allrouters
+ff02::3{{'\t'}}ip6-allhosts
+
+{%if additional_ipv6_hosts is defined %}
+# IPv6 additional_hosts:
+{% for item in additional_ipv6_hosts %}
+{%if item.enabled %}
+{{ item.ip }}{{'\t'}}{{ item.hosts }}
+{%endif%}
+{%endfor%}
+{%endif%}
