@@ -6,7 +6,7 @@
   when: ansible_host_family == 'Debian'
 
 - name: Hostname | Update the hostname (pt. 1) - hostname cmd
-  hostname: 
+  hostname:
     name: "{{hostname}}"
   tags: hostnames_configure_hostname
 
